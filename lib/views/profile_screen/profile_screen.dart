@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
       floatingActionButton: FabButton(),
       bottomNavigationBar:  BottomNavbar(),
       appBar: PreferredSize(
-        preferredSize: Size(100.w,26.h),
+        preferredSize: Size(100.w,22.h),
         child: Stack(
           children: [
             Container(
@@ -167,7 +167,7 @@ class ProfileScreen extends StatelessWidget {
                           Get.to(FriendProfileScreen(),arguments: friendRequest[itemNumber]);
                         },
                         child: Container(
-                          height: 15.h,
+                          height: 12.h,
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.surfaceVariant,
                             borderRadius: BorderRadius.circular(5),
@@ -176,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 12.h,
+                        height: 10.h,
                         width: 100.w,
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.surfaceVariant,
@@ -194,7 +194,7 @@ class ProfileScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                  height: 5.h,
+                                  height: 4.h,
                                   width: 8.h,
                                   decoration: BoxDecoration(
                                       color: Colors.green,
@@ -203,7 +203,7 @@ class ProfileScreen extends StatelessWidget {
                                   child: Icon(Icons.done_rounded,color: Theme.of(context).colorScheme.onPrimary,),
                                 ),
                                 Container(
-                                  height: 5.h,
+                                  height: 4.h,
                                   width: 8.h,
                                   decoration: BoxDecoration(
                                       color: Colors.red,

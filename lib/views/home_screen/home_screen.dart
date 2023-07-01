@@ -49,6 +49,9 @@ class HomeScreen extends StatelessWidget {
              child: Container(
                height: 8.h,
                width: 80.w,
+               constraints: BoxConstraints(
+                 maxHeight: 55,
+               ),
                decoration: BoxDecoration(
                  borderRadius: BorderRadius.circular(15),
                  color: Theme.of(context).colorScheme.onInverseSurface,

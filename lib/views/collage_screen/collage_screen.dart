@@ -52,7 +52,7 @@ class CollageScreen extends StatelessWidget {
         padding: EdgeInsets.only(top: 3.h),
         child: SizedBox(
           width: 100.w,
-          height: 80.h,
+          height: 70.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
