@@ -4,7 +4,6 @@ import '../components/bottom_navbar.dart';
 import '../components/fab_button.dart';
 import 'package:get/get.dart';
 
-
 class FollowerScreen extends StatelessWidget {
   const FollowerScreen({Key? key}) : super(key: key);
 
@@ -14,10 +13,10 @@ class FollowerScreen extends StatelessWidget {
       extendBody: true,
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FabButton(),
-      bottomNavigationBar:  BottomNavbar(),
+      floatingActionButton: const FabButton(),
+      bottomNavigationBar: const BottomNavbar(),
       appBar: PreferredSize(
-        preferredSize: Size(100.w,17.h),
+        preferredSize: Size(100.w, 17.h),
         child: Stack(
           children: [
             Container(
@@ -29,15 +28,21 @@ class FollowerScreen extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Takipçilerin",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
             ),
             Transform(
                 transform: Matrix4.translationValues(2.w, 5.h, 0),
-                child: IconButton(onPressed: (){
-                  Get.back();
-                }, icon: Icon(Icons.arrow_back_ios_new_rounded,color: Theme.of(context).colorScheme.onPrimary,))),
+                child: IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ))),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -47,13 +52,13 @@ class FollowerScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   color: Theme.of(context).colorScheme.onInverseSurface,
                 ),
-                child: Center(
+                child: const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(Icons.search),
                         ),
                         Expanded(
@@ -61,18 +66,15 @@ class FollowerScreen extends StatelessWidget {
                             decoration: InputDecoration(
                                 hintText: "Search",
                                 border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.grey)
-                            ),
+                                hintStyle: TextStyle(color: Colors.grey)),
                           ),
                         ),
-
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-
           ],
         ),
       ),

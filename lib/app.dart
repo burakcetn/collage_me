@@ -8,13 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-
-
-
 class MyApp extends StatefulWidget {
-  MyApp._internal(); // private named constructor
-  static final MyApp instance =
-  MyApp._internal(); // single instance -- singleton
+  const MyApp._internal(); // private named constructor
+  static const MyApp instance =
+      MyApp._internal(); // single instance -- singleton
 
   factory MyApp() => instance; //factory for the class instance
 
@@ -23,21 +20,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
-
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (context,orientation,deviceType){
-        return GetMaterialApp(
-          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme, textTheme: textTheme),
-          darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme, textTheme: textTheme),
-          themeMode: ThemeMode.light,
-          home:  HomeScreen(),
-
-        );
-      }
+    return Sizer(builder: (context, orientation, deviceType) {
+      return GetMaterialApp(
+        theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme,
+            textTheme: textTheme,
+            fontFamily: "Aileron"),
+        darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme,
+            textTheme: textTheme,
+            fontFamily: "Aileron"),
+        themeMode: ThemeMode.light,
+        home: HomeScreen(),
       );
+    });
   }
 }

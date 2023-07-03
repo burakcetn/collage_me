@@ -4,8 +4,6 @@ import 'dart:math' as math;
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-
-
 class FabButton extends StatelessWidget {
   const FabButton({
     super.key,
@@ -20,19 +18,18 @@ class FabButton extends StatelessWidget {
         transform: Matrix4.translationValues(0, 25, 0),
         child: FittedBox(
           child: Transform.rotate(
-            angle: math.pi/4,
+            angle: math.pi / 4,
             child: FloatingActionButton(
               backgroundColor: Theme.of(context).colorScheme.secondary,
               onPressed: () {
-                Get.to(()=>CollageScreen());
+                Get.to(() => const CollageScreen());
               },
-              child:  Transform.rotate(
-                angle: -math.pi/4,
+              child: Transform.rotate(
+                angle: -math.pi / 4,
                 child: Icon(
                   Icons.format_paint_rounded,
                   size: 36,
                   color: Theme.of(context).colorScheme.onPrimary,
-
                 ),
               ),
             ),
