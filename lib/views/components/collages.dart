@@ -1,5 +1,9 @@
+import 'package:collage_me/views/components/user_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
+import '../profile_screen/friend_profile_screen.dart';
 
 class Collage0 extends StatelessWidget {
   const Collage0({Key? key}) : super(key: key);
@@ -15,7 +19,7 @@ class Collage0 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 4,
-            mainAxisCellCount: 4,
+            mainAxisCellCount: 8,
             child: Tile(index: 0),
           ),
         ],
@@ -40,27 +44,27 @@ class Collage1 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 1),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 2),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 3),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 4,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 4),
           ),
         ],
@@ -85,22 +89,22 @@ class Collage2 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 1),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 2),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 3),
           ),
         ],
@@ -123,22 +127,22 @@ class Collage3 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 3,
+            mainAxisCellCount: 6,
             child: Tile(index: 1),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 3,
+            mainAxisCellCount: 6,
             child: Tile(index: 2),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 3),
           ),
         ],

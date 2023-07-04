@@ -1,79 +1,64 @@
+import 'package:collage_me/views/components/banner_admob.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collage_me/views/components/fab_button.dart';
+import '../../controllers/admob_helper.dart';
 import '../components/bottom_navbar.dart';
 import '../components/collages.dart';
+import '../components/home_screen_grid_view.dart';
 
 class CollageScreen extends StatelessWidget {
   const CollageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double screenW = MediaQuery.of(context).size.width;
+
     return Scaffold(
       extendBody: true,
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FabButton(),
       bottomNavigationBar: const BottomNavbar(),
-      appBar: PreferredSize(
-        preferredSize: Size(100.w, 6.h),
-        child: Stack(
-          children: [
-            Container(
-              height: 24.h,
-              width: 100.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(6.h),
-                    bottomRight: Radius.circular(6.h)),
-                color: Theme.of(context).colorScheme.surfaceTint,
-              ),
-            ),
-            Transform(
-              transform: Matrix4.translationValues(0, 4.h, 0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CircleAvatar(
-                  radius: 5.h,
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  child: Icon(
-                    Icons.person,
-                    size: 32,
-                    color: Colors.white.withOpacity(0.4),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 3.h),
-        child: SizedBox(
-          width: 100.w,
-          height: 70.h,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
                 "Your Collage",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
+              SizedBox(
+                  height: 2 * screenW,
+                  width: screenW,
+                  child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 1,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 0,
+                          crossAxisSpacing: 0,
+                          crossAxisCount: 1,
+                          childAspectRatio: 0.5),
+                      itemBuilder: (context, itemnumber) {
+                        return Collage1();
+                      })),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  "Made with Love, from your friends",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
+                padding: const EdgeInsets.all(8.0),
+                child: BannerAdmob(),
+              ),
+              Container(
+                height: 300,
+                width: 90.w,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white),
+                child: Center(
+                  child: Text("Buraya Yorumlar entegre edilecek"),
                 ),
               ),
-              const SingleChildScrollView(
-                child: Collage1(),
+              SizedBox(
+                height: 30,
               )
             ],
           ),

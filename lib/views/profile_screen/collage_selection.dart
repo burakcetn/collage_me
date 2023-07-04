@@ -24,104 +24,24 @@ class CollageSelection extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
+        title: Text("Choose Your Layout"),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  "Choose your Layout",
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 0 seçildi");
-                  },
-                  child: const Collage0()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 1 seçildi");
-                  },
-                  child: const Collage1()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 2 seçildi");
-                  },
-                  child: const Collage2()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 1 seçildi");
-                  },
-                  child: const Collage3()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 1 seçildi");
-                  },
-                  child: const Collage4()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 1 seçildi");
-                  },
-                  child: const Collage5()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 1 seçildi");
-                  },
-                  child: const Collage6()),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    print("collage 7 seçildi");
-                    Get.back();
-                  },
-                  child: const Collage7()),
-              const SizedBox(
-                height: 20,
-              )
-            ],
+        child: GridView(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1,
+            childAspectRatio: 0.5,
           ),
+          children: [
+            Collage0(),
+            Collage1(),
+            Collage2(),
+            Collage2(),
+            Collage2(),
+            Collage2(),
+            Collage2(),
+            Collage2(),
+          ],
         ),
       ),
     );

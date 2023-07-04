@@ -43,11 +43,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         floatingActionButton: const FabButton(),
         bottomNavigationBar: const BottomNavbar(),
         appBar: PreferredSize(
-          preferredSize: Size(100.w, 22.h),
+          preferredSize: Size(100.w, 180),
           child: Stack(
             children: [
               Container(
-                height: 24.h,
+                height: 200,
                 width: 100.w,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceTint,
@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   }
                                 },
                                 child: CircleAvatar(
-                                  radius: 22.sp,
+                                  radius: 32,
                                   foregroundImage: _image != null
                                       ? FileImage(_image!)
                                       : null,
@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 8.h,
+                  height: 70,
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),

@@ -1,9 +1,13 @@
 import 'package:collage_me/views/components/bottom_navbar.dart';
+import 'package:collage_me/views/components/collages.dart';
 import 'package:collage_me/views/components/fab_button.dart';
 import 'package:collage_me/views/profile_screen/friend_profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
+
+import '../components/home_screen_grid_view.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -26,11 +30,11 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: const FabButton(),
       bottomNavigationBar: const BottomNavbar(),
       appBar: PreferredSize(
-        preferredSize: Size(100.w, 14.h),
+        preferredSize: Size(100.w, 120),
         child: Stack(
           children: [
             Container(
-              height: 16.h,
+              height: 140,
               width: 100.w,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceTint,
@@ -46,7 +50,7 @@ class HomeScreen extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: 8.h,
+                height: 60,
                 width: 80.w,
                 constraints: const BoxConstraints(
                   maxHeight: 55,
@@ -95,72 +99,16 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.85),
-              itemCount: 6,
-              itemBuilder: (context, itemNumber) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(const FriendProfileScreen(),
-                        arguments: friendRequest[itemNumber]);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 20.h,
-                      width: 20.w,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              height: 15.h,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: const Placeholder(),
-                            ),
-                            Container(
-                              height: 5.h,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .surfaceVariant,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Text(
-                                friendRequest[itemNumber],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelSmall
-                                    ?.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+              child: GridView.builder(
+                  itemCount: 3,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 0,
+                      crossAxisSpacing: 0,
+                      crossAxisCount: 1,
+                      childAspectRatio: 0.8),
+                  itemBuilder: (context, itemNumber) {
+                    return HomeScreenGridView();
+                  })),
           const SizedBox(
             height: 20,
           )
