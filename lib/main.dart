@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'app.dart';
 import 'package:collage_me/controllers/admob_helper.dart';
@@ -24,6 +25,7 @@ Future<void> loadAd() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
+  await GetStorage.init();
 
   RequestConfiguration configuration =
       RequestConfiguration(testDeviceIds: testDeviceIds);

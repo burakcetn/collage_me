@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 
@@ -9,7 +10,7 @@ import '../models/register_response_model.dart';
 /// LoginService responsible to communicate with web-server
 /// via authenticaton related APIs
 class LoginService extends GetConnect {
-  final String loginUrl = 'https://evliliksitesii.com/api/login';
+  final String loginUrl = 'https://evliliksitesii.com/password/email';
   final String registerUrl = 'https://reqres.in/api/register';
 
   Future<LoginResponseModel?> fetchLogin(LoginRequestModel model) async {
@@ -18,6 +19,7 @@ class LoginService extends GetConnect {
     if (response.statusCode == HttpStatus.ok) {
       return LoginResponseModel.fromJson(response.body);
     } else {
+      print(response.statusCode.toString());
       return null;
     }
   }

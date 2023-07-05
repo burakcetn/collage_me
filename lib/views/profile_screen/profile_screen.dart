@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:collage_me/controllers/image_helper.dart';
+import 'package:collage_me/core/auth_manager.dart';
+import 'package:collage_me/splah_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:collage_me/views/components/fab_button.dart';
@@ -21,6 +23,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final AuthenticationManager _authManager = Get.find();
+
   final List friendRequest = [
     'Kullanıcı 1',
     'Kullanıcı 2',
@@ -71,8 +75,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const SizedBox(
-                          width: 48,
+                        GestureDetector(
+                          onTap: () {
+                            _authManager.logOut();
+                            Get.off(() => SplashView());
+                          },
+                          child: const CircleAvatar(
+                            radius: 24,
+                            child: Icon(Icons.format_paint),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
