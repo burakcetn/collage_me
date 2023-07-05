@@ -2,6 +2,7 @@ import 'package:collage_me/resources/color_schemes.dart';
 import 'package:collage_me/resources/theme_manager.dart';
 import 'package:collage_me/views/collage_screen/collage_screen.dart';
 import 'package:collage_me/views/home_screen/home_screen.dart';
+import 'package:collage_me/login_screen/login_screen.dart';
 import 'package:collage_me/views/profile_screen/friend_profile_screen.dart';
 import 'package:collage_me/views/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
             textTheme: textTheme,
             fontFamily: "Aileron"),
         themeMode: ThemeMode.light,
-        home: HomeScreen(),
+        home: LoginScreen(),
       );
     });
   }

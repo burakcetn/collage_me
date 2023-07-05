@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 import '../components/bottom_navbar.dart';
 import '../components/collages.dart';
 import '../components/fab_button.dart';
@@ -29,18 +30,51 @@ class CollageSelection extends StatelessWidget {
       body: SafeArea(
         child: GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
-            childAspectRatio: 0.5,
-          ),
+              crossAxisCount: 2,
+              childAspectRatio: 0.5,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8),
           children: [
-            Collage0(),
-            Collage1(),
-            Collage2(),
-            Collage2(),
-            Collage2(),
-            Collage2(),
-            Collage2(),
-            Collage2(),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage0()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage1()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage2()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage3()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage4()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage5()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage6()),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Collage7()),
           ],
         ),
       ),

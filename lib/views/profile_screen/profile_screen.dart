@@ -34,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final imageHelper = Get.put(ImageHelper());
   // ignore: prefer_typing_uninitialized_variables
   var croppedFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,6 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         body: SafeArea(
+          bottom: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

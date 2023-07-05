@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /*
 
    Flutter bize direkt olarak hex kod kullanmayı desteklemediği için bu class ve fonksiyon oluşturuldu.
@@ -10,11 +9,8 @@ import 'package:flutter/material.dart';
 
  */
 
-
-
 class ColorManager {
-  static Color base00 = HexColor.fromHex("#FAFAFA");
-  
+  static Color base = HexColor.fromHex("#EADDFF");
 }
 
 extension HexColor on Color {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 //TODO: dark theme ayarlanacak
 
 const lightColorScheme = ColorScheme(

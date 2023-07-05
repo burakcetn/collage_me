@@ -165,42 +165,42 @@ class Collage4 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 1),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 2),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 3),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 3,
-            mainAxisCellCount: 3,
+            mainAxisCellCount: 6,
             child: Tile(index: 4),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 5),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 6),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 7),
           ),
         ],
@@ -223,27 +223,27 @@ class Collage5 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 1),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 3,
+            mainAxisCellCount: 6,
             child: Tile(index: 2),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 3),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
+            mainAxisCellCount: 2,
             child: Tile(index: 4),
           ),
         ],
@@ -266,28 +266,18 @@ class Collage6 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 4,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 2,
+            crossAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 1),
           ),
           StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 2,
+            crossAxisCellCount: 2,
+            mainAxisCellCount: 4,
             child: Tile(index: 2),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 2,
-            child: Tile(index: 3),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 2,
-            child: Tile(index: 4),
           ),
         ],
       ),
@@ -309,12 +299,12 @@ class Collage7 extends StatelessWidget {
         children: const [
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 4,
+            mainAxisCellCount: 8,
             child: Tile(index: 0),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 4,
+            mainAxisCellCount: 8,
             child: Tile(index: 1),
           ),
         ],
