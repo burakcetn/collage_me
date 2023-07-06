@@ -1,10 +1,9 @@
 import 'package:collage_me/controllers/user_services.dart';
-import 'package:collage_me/login_screen/onboard.dart';
+
 import 'package:collage_me/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/user_model.dart';
 import 'login_view_model.dart';
 
 class LoginScreen extends StatefulWidget {

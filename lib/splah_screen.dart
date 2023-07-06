@@ -1,8 +1,9 @@
+import 'package:collage_me/views/login_screen/onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'core/auth_manager.dart';
-import 'login_screen/onboard.dart';
+
 
 class SplashView extends StatelessWidget {
   final AuthenticationManager _authmanager = Get.put(AuthenticationManager());
