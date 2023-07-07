@@ -1,26 +1,53 @@
-import 'package:collage_me/views/components/bottom_navbar.dart';
-import 'package:collage_me/views/components/collages.dart';
-import 'package:collage_me/views/components/fab_button.dart';
-import 'package:collage_me/views/profile_screen/friend_profile_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:sizer/sizer.dart';
-import 'package:get/get.dart';
+import 'dart:async';
 
+import 'package:collage_me/controllers/friend_controller.dart';
+import 'package:collage_me/controllers/login_user_id.dart';
+import 'package:collage_me/controllers/user_search_controller.dart';
+import 'package:collage_me/controllers/user_suggest_controller.dart';
+import 'package:collage_me/core/cache_manager.dart';
+import 'package:collage_me/models/loged_user_model.dart';
+
+import 'package:collage_me/views/components/bottom_navbar.dart';
+
+import 'package:collage_me/views/components/fab_button.dart';
+import 'package:collage_me/views/home_screen/search_screen.dart';
+
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import '../../models/user_search_model.dart';
+import '../components/banner_admob.dart';
 import '../components/home_screen_grid_view.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  final List friendRequest = [
-    'Kullanıcı 1',
-    'Kullanıcı 2',
-    'Kullanıcı 3',
-    'Kullanıcı 4',
-    'Kullanıcı 5',
-    'Kullanıcı 6',
-  ].obs;
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController userSearch = TextEditingController();
+  final UserSuggestService _userSuggestService = Get.put(UserSuggestService());
+  final StreamController _streamController = Get.put(StreamController());
+  final LoginUserId _loginUserId = Get.put(LoginUserId());
+
+  @override
+  initState() {
+    _loginUserId.logUserId();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _streamController.close();
+  }
+
+  final focus = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,90 +56,78 @@ class HomeScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FabButton(),
       bottomNavigationBar: const BottomNavbar(),
-      appBar: PreferredSize(
-        preferredSize: Size(100.w, 120),
-        child: Stack(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Get.to(() => UserSearchScreen());
+            },
+            icon: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.onPrimary,
+              size: 32,
+            )),
+        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text(
+          "WallpaperSnap",
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium
+              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Column(
           children: [
-            Container(
-              height: 140,
-              width: 100.w,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceTint,
-              ),
-              child: Center(
-                child: Text(
-                  "WallpaperSnap",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary),
-                ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "Arkadaş Önerileri",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 60,
-                width: 80.w,
-                constraints: const BoxConstraints(
-                  maxHeight: 55,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                ),
-                child: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.search),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Search",
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.grey)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BannerAdmob(),
+            ),
+            Expanded(
+                child: FutureBuilder(
+              future: _userSuggestService.userSuggest(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return GridView.builder(
+                      itemCount: 1,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 0,
+                          crossAxisSpacing: 0,
+                          crossAxisCount: 1,
+                          childAspectRatio: 0.8),
+                      itemBuilder: (context, itemNumber) {
+                        return HomeScreenGridView(
+                          suggestionsList: snapshot.data!,
+                        );
+                      });
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const Center(
+                    child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator()));
+              },
+            )),
+            const SizedBox(
+              height: 20,
             ),
           ],
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Arkadaş Önerileri",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
-            ),
-          ),
-          Expanded(
-              child: GridView.builder(
-                  itemCount: 3,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 0,
-                      crossAxisCount: 1,
-                      childAspectRatio: 0.8),
-                  itemBuilder: (context, itemNumber) {
-                    return HomeScreenGridView();
-                  })),
-          const SizedBox(
-            height: 20,
-          )
-        ],
       ),
     );
   }

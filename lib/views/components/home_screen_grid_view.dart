@@ -1,11 +1,17 @@
 import 'package:collage_me/controllers/admob_helper.dart';
+import 'package:collage_me/models/user_suggest_response_model.dart';
 import 'package:collage_me/views/components/user_container.dart';
+import 'package:collage_me/views/profile_screen/friend_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:get/get.dart';
 
 class HomeScreenGridView extends StatefulWidget {
-  const HomeScreenGridView({Key? key}) : super(key: key);
+  HomeScreenGridView({Key? key, required this.suggestionsList})
+      : super(key: key);
+
+  List<UserSuggestModel> suggestionsList;
 
   @override
   State<HomeScreenGridView> createState() => _HomeScreenGridViewState();
@@ -49,22 +55,30 @@ class _HomeScreenGridViewState extends State<HomeScreenGridView> {
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
             mainAxisCellCount: 2,
-            child: HomeScreenUserContainer(),
+            child: HomeScreenUserContainer(
+              userName: widget.suggestionsList[0].userName,
+            ),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
             mainAxisCellCount: 2,
-            child: HomeScreenUserContainer(),
+            child: HomeScreenUserContainer(
+              userName: widget.suggestionsList[1].userName,
+            ),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
             mainAxisCellCount: 2,
-            child: HomeScreenUserContainer(),
+            child: HomeScreenUserContainer(
+              userName: widget.suggestionsList[2].userName,
+            ),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 2,
             mainAxisCellCount: 2,
-            child: HomeScreenUserContainer(),
+            child: HomeScreenUserContainer(
+              userName: widget.suggestionsList[3].userName,
+            ),
           ),
           if (_bannerAd != null)
             StaggeredGridTile.count(

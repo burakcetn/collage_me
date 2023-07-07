@@ -15,68 +15,19 @@ class FollowerScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FabButton(),
       bottomNavigationBar: const BottomNavbar(),
-      appBar: PreferredSize(
-        preferredSize: Size(100.w, 17.h),
-        child: Stack(
-          children: [
-            Container(
-              height: 16.h,
-              width: 100.w,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceTint,
-              ),
-              child: Center(
-                child: Text(
-                  "Takipçilerin",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary),
-                ),
-              ),
-            ),
-            Transform(
-                transform: Matrix4.translationValues(2.w, 5.h, 0),
-                child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ))),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 8.h,
-                width: 80.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                ),
-                child: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.search),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Search",
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.grey)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        toolbarHeight: 80,
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          "Kullanıcı Adı",
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
         ),
+        centerTitle: true,
       ),
     );
   }

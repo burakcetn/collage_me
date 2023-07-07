@@ -1,6 +1,5 @@
-import 'package:collage_me/controllers/user_services.dart';
-
 import 'package:collage_me/resources/color_manager.dart';
+import 'package:collage_me/splah_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +15,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController rePassword = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController userName = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
   FormType _formType = FormType.login;
@@ -24,20 +27,24 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                    height: 200,
-                    child: FittedBox(
-                        child: Image(
-                            image: AssetImage("assets/images/splash.png")))),
-                _formType == FormType.login ? loginForm() : registerForm(),
-              ],
-            )),
+      resizeToAvoidBottomInset: true,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                      height: 150,
+                      child: FittedBox(
+                          child: Image(
+                              image: AssetImage("assets/images/splash.png")))),
+                  _formType == FormType.login ? loginForm() : registerForm(),
+                ],
+              )),
+        ),
       ),
     );
   }
@@ -98,59 +105,95 @@ class _LoginScreenState extends State<LoginScreen> {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: _formKey,
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        TextFormField(
-          style: Theme.of(context).textTheme.labelSmall,
-          controller: email,
-          validator: (value) {
-            return (value == null || value.isEmpty)
-                ? 'Please Enter Email'
-                : null;
-          },
-          decoration: inputDecoration('E-mail', Icons.person),
-        ),
-        SizedBox(
-          height: 12,
-        ),
-        TextFormField(
-          style: Theme.of(context).textTheme.labelSmall,
-          validator: (value) {
-            return (value == null || value.isEmpty)
-                ? 'Please Enter Password'
-                : null;
-          },
-          controller: password,
-          decoration: inputDecoration('Password', Icons.lock),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        TextFormField(
-          style: Theme.of(context).textTheme.labelSmall,
-          validator: (value) {
-            return (value == null || value.isEmpty || value != password.text)
-                ? 'Passwords does not match'
-                : null;
-          },
-          decoration: inputDecoration('Retype Password', Icons.lock),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            if (_formKey.currentState?.validate() ?? false) {
-              await _viewModel.registerUser(email.text, password.text);
-            }
-          },
-          child: Text('Register'),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              _formType = FormType.login;
-            });
-          },
-          child: Text('Login'),
-        )
-      ]),
+      child: SingleChildScrollView(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          TextFormField(
+            style: Theme.of(context).textTheme.labelSmall,
+            controller: firstName,
+            validator: (value) {
+              return (value == null || value.isEmpty) ? 'P' : null;
+            },
+            decoration: inputDecoration('First Name', Icons.person),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          TextFormField(
+            style: Theme.of(context).textTheme.labelSmall,
+            controller: lastName,
+            validator: (value) {
+              return (value == null || value.isEmpty)
+                  ? 'Please Enter Email'
+                  : null;
+            },
+            decoration: inputDecoration('Last Name', Icons.person),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          TextFormField(
+            style: Theme.of(context).textTheme.labelSmall,
+            controller: userName,
+            decoration: inputDecoration('Username', Icons.person),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          TextFormField(
+            style: Theme.of(context).textTheme.labelSmall,
+            controller: email,
+            decoration: inputDecoration('E-mail', Icons.person),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          TextFormField(
+            style: Theme.of(context).textTheme.labelSmall,
+            controller: password,
+            decoration: inputDecoration('Password', Icons.lock),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: rePassword,
+            style: Theme.of(context).textTheme.labelSmall,
+            decoration: inputDecoration('Retype Password', Icons.lock),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (_formKey.currentState?.validate() ?? false) {
+                await _viewModel.registerUser(
+                    email.text,
+                    password.text,
+                    rePassword.text,
+                    firstName.text,
+                    lastName.text,
+                    userName.text);
+              }
+            },
+            child: Text('Register'),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  _formType = FormType.login;
+                });
+              },
+              child: Text('Geri'),
+            ),
+          )
+        ]),
+      ),
     );
   }
 }

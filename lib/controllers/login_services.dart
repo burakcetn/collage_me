@@ -1,7 +1,10 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
-
+import 'package:http/http.dart' as http;
 import '../models/login_request_model.dart';
 import '../models/login_response_manager.dart';
 import '../models/register_request_model.dart';
@@ -11,11 +14,12 @@ import '../models/register_response_model.dart';
 /// via authenticaton related APIs
 class LoginService extends GetConnect {
   final String loginUrl = 'https://evliliksitesii.com/password/email';
-  final String registerUrl = 'https://reqres.in/api/register';
+  final String registerUrl = 'https://evliliksitesii.com/api/Account/Register';
+  final content = 'application/json';
 
   Future<LoginResponseModel?> fetchLogin(LoginRequestModel model) async {
     final response = await post(loginUrl, model.toJson());
-
+    debugPrint(model.toJson().toString());
     if (response.statusCode == HttpStatus.ok) {
       return LoginResponseModel.fromJson(response.body);
     } else {
@@ -24,13 +28,32 @@ class LoginService extends GetConnect {
     }
   }
 
-  Future<RegisterResponseModel?> fetchRegister(
-      RegisterRequestModel model) async {
-    final response = await post(registerUrl, model.toJson());
+  Future<RegisterResponseModel?> register(
+      RegisterRequestModel registerRequestModel) async {
+    final url = 'https://evliliksitesii.com/api/Account/Register';
 
-    if (response.statusCode == HttpStatus.ok) {
-      return RegisterResponseModel.fromJson(response.body);
-    } else {
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final jsonBody = jsonEncode(registerRequestModel);
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonBody,
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return RegisterResponseModel.fromJson(responseData);
+      } else {
+        debugPrint('Registration failed. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Error during registration: $e');
       return null;
     }
   }

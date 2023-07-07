@@ -46,6 +46,8 @@ dependencies:
   google_mobile_ads: ^3.0.0
   get_storage: ^2.1.1
   http: ^1.1.0
+  comment_tree: ^0.3.0
+  searchfield: ^0.8.3
 
 
 

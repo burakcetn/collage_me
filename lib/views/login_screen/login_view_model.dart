@@ -5,8 +5,7 @@ import '../../controllers/login_services.dart';
 import '../../core/auth_manager.dart';
 import '../../models/login_request_model.dart';
 import '../../models/register_request_model.dart';
-
-
+import '../../splah_screen.dart';
 
 class LoginViewModel extends GetxController {
   late final LoginService _loginService;
@@ -22,7 +21,6 @@ class LoginViewModel extends GetxController {
   Future<void> loginUser(String email, String password) async {
     final response = await _loginService
         .fetchLogin(LoginRequestModel(email: email, password: password));
-
     if (response != null) {
       /// Set isLogin to true
       _authManager.login(response.token);
@@ -38,14 +36,23 @@ class LoginViewModel extends GetxController {
     }
   }
 
-  Future<void> registerUser(String email, String password) async {
-    final response = await _loginService
-        .fetchRegister(RegisterRequestModel(email: email, password: password));
+  Future<void> registerUser(String email, String password, String rePassword,
+      String firstName, String lastName, String userName) async {
+    final response = await _loginService.register(RegisterRequestModel(
+      email: email,
+      password: password,
+      userName: userName,
+      firstName: firstName,
+      lastName: lastName,
+      rePassword: rePassword,
+    ));
 
     if (response != null) {
       /// Set isLogin to true
       _authManager.login(response.token);
     } else {
+      debugPrint(response.toString());
+
       /// Show user a dialog about the error response
       Get.defaultDialog(
           middleText: 'Register Error',

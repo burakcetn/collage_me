@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../models/user_suggest_response_model.dart';
 import '../profile_screen/friend_profile_screen.dart';
 import 'package:get/get.dart';
 
 class HomeScreenUserContainer extends StatelessWidget {
-  HomeScreenUserContainer({
-    super.key,
-  });
+  HomeScreenUserContainer({super.key, required this.userName});
 
+  String? userName;
   final List friendRequest = [
     'Kullanıcı 1',
     'Kullanıcı 2',
@@ -22,7 +22,7 @@ class HomeScreenUserContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(const FriendProfileScreen(), arguments: friendRequest[0]);
+        Get.to(const FriendProfileScreen(), arguments: userName);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -55,7 +55,7 @@ class HomeScreenUserContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
-                    friendRequest[0],
+                    userName != null ? userName! : "Kullanıcı Adı",
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: Colors.black,
                         ),

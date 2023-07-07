@@ -1,6 +1,6 @@
 class RegisterResponseModel {
   String? token;
-  int? id;
+  String? id;
 
   RegisterResponseModel({this.token, this.id});
 

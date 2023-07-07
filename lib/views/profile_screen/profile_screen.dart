@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:collage_me/controllers/image_helper.dart';
+import 'package:collage_me/controllers/user_collage_controller.dart';
 import 'package:collage_me/core/auth_manager.dart';
+import 'package:collage_me/models/friend_model.dart';
 import 'package:collage_me/splah_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -9,10 +11,9 @@ import 'package:collage_me/views/profile_screen/collage_selection.dart';
 import 'package:collage_me/views/profile_screen/follower_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
+import '../../controllers/friend_controller.dart';
 import '../components/bottom_navbar.dart';
-import 'follow_screen.dart';
 import 'friend_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,7 +24,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final AuthenticationManager _authManager = Get.find();
+  final AuthenticationManager _authManager = Get.put(AuthenticationManager());
+  final UserCollageController _userCollageController =
+      Get.put(UserCollageController());
+  final FriendController _friendController = Get.put(FriendController());
+  late Future<FriendModel> futureFriend;
 
   final List friendRequest = [
     'Kullanıcı 1',
@@ -34,6 +39,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'Kullanıcı 6'
   ].obs;
 
+  @override
+  void initState() {
+    futureFriend = _friendController.getFriend();
+    _userCollageController.userCollage();
+    super.initState();
+  }
+
   File? _image;
   final imageHelper = Get.put(ImageHelper());
   // ignore: prefer_typing_uninitialized_variables
@@ -42,205 +54,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         extendBody: true,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: const FabButton(),
         bottomNavigationBar: const BottomNavbar(),
-        appBar: PreferredSize(
-          preferredSize: Size(100.w, 180),
-          child: Stack(
+        appBar: AppBar(
+          toolbarHeight: 80,
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          leading: GestureDetector(
+            onTap: () {
+              _authManager.logOut();
+              Get.off(() => SplashView());
+            },
+            child: Icon(
+              Icons.logout_outlined,
+              color: Colors.white,
+            ),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                height: 200,
-                width: 100.w,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceTint,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "Kullanıcı Adı",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _authManager.logOut();
-                            Get.off(() => SplashView());
-                          },
-                          child: const CircleAvatar(
-                            radius: 24,
-                            child: Icon(Icons.format_paint),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  final files = await imageHelper.pickImage();
-                                  if (files != null) {
-                                    croppedFile = await imageHelper.crop(
-                                        file: files,
-                                        cropStyle: CropStyle.circle);
-                                  }
-                                  if (croppedFile != null) {
-                                    setState(
-                                        () => _image = File(croppedFile.path));
-                                  }
-                                },
-                                child: CircleAvatar(
-                                  radius: 32,
-                                  foregroundImage: _image != null
-                                      ? FileImage(_image!)
-                                      : null,
-                                  child: const Icon(Icons.person),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => const CollageSelection());
-                          },
-                          child: const CircleAvatar(
-                            radius: 24,
-                            child: Icon(Icons.format_paint),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer()
-                  ],
-                ),
+              SizedBox(
+                width: 10,
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 70,
-                  width: 80.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Spacer(),
-                            Text(
-                              "453",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .surfaceTint),
-                            ),
-                            Text(
-                              "Katılımcı",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .surfaceTint),
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => const FollowerScreen());
-                          },
-                          child: Column(
-                            children: [
-                              const Spacer(),
-                              Text(
-                                "453",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceTint),
-                              ),
-                              Text(
-                                "Takipçi",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceTint),
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => const FollowScreen());
-                          },
-                          child: Column(
-                            children: [
-                              const Spacer(),
-                              Text(
-                                "453",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceTint),
-                              ),
-                              Text(
-                                "Takip",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceTint),
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+              FutureBuilder(
+                future: futureFriend,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text("asd",
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary));
+                  } else {
+                    return Text('Kullanıcı Adı');
+                  }
+                },
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => const CollageSelection());
+                },
+                child: const CircleAvatar(
+                  radius: 24,
+                  child: Icon(Icons.format_paint),
                 ),
               ),
             ],
           ),
+          centerTitle: true,
         ),
         body: SafeArea(
           bottom: false,
@@ -249,6 +113,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               const SizedBox(
                 height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Center(
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final files = await imageHelper.pickImage();
+                        if (files != null) {
+                          croppedFile = await imageHelper.crop(
+                              file: files, cropStyle: CropStyle.circle);
+                        }
+                        if (croppedFile != null) {
+                          setState(() => _image = File(croppedFile.path));
+                        }
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 36,
+                        foregroundImage:
+                            _image != null ? FileImage(_image!) : null,
+                        child: const Icon(Icons.person),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => FollowerScreen());
+                  },
+                  child: Container(
+                    height: 70,
+                    width: 40.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "Takipçi :",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceTint),
+                        ),
+                        Text(
+                          "453",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceTint),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),

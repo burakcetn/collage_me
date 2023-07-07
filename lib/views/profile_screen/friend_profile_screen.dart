@@ -1,3 +1,4 @@
+import 'package:collage_me/controllers/user_search_controller.dart';
 import 'package:collage_me/views/components/fab_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -5,9 +6,23 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../components/bottom_navbar.dart';
+import 'follower_screen.dart';
 
-class FriendProfileScreen extends StatelessWidget {
+class FriendProfileScreen extends StatefulWidget {
   const FriendProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FriendProfileScreen> createState() => _FriendProfileScreenState();
+}
+
+class _FriendProfileScreenState extends State<FriendProfileScreen> {
+  UserSearchService _userSearchService = Get.put(UserSearchService());
+
+  @override
+  void initState() {
+    String? userId = _userSearchService.findUserIdByUsername(Get.arguments);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,153 +32,26 @@ class FriendProfileScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FabButton(),
       bottomNavigationBar: const BottomNavbar(),
-      appBar: PreferredSize(
-        preferredSize: Size(100.w, 22.h),
-        child: Stack(
-          children: [
-            Container(
-              height: 24.h,
-              width: 100.w,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceTint,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      Get.arguments,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 22.sp,
-                    ),
-                  ),
-                  const Spacer()
-                ],
-              ),
-            ),
-            Transform(
-                transform: Matrix4.translationValues(2.w, 5.h, 0),
-                child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ))),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 8.h,
-                width: 80.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const Spacer(),
-                          Text(
-                            "453",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceTint),
-                          ),
-                          Text(
-                            "Katılımcı",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceTint),
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const Spacer(),
-                          Text(
-                            "453",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceTint),
-                          ),
-                          Text(
-                            "Takipçi",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceTint),
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const Spacer(),
-                          Text(
-                            "453",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceTint),
-                          ),
-                          Text(
-                            "Takip",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceTint),
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        toolbarHeight: 80,
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          Get.arguments,
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall
+              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 3.h),
@@ -173,6 +61,56 @@ class FriendProfileScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: const Icon(Icons.person),
+                  ),
+                ),
+              ),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => FollowerScreen());
+                  },
+                  child: Container(
+                    height: 70,
+                    width: 40.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "Takipçi :",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceTint),
+                        ),
+                        Text(
+                          "453",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceTint),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               SingleChildScrollView(
                 child: Padding(
                   padding:

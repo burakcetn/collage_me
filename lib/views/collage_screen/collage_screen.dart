@@ -1,3 +1,4 @@
+import 'package:collage_me/views/collage_screen/comment_view.dart';
 import 'package:collage_me/views/components/banner_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -25,10 +26,6 @@ class CollageScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
-                "Your Collage",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
               SizedBox(
                   height: 2 * screenW,
                   width: screenW,
@@ -48,14 +45,11 @@ class CollageScreen extends StatelessWidget {
                 child: BannerAdmob(),
               ),
               Container(
-                height: 300,
                 width: 90.w,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(15),
                     color: Colors.white),
-                child: Center(
-                  child: Text("Buraya Yorumlar entegre edilecek"),
-                ),
+                child: CommentScreen(),
               ),
               SizedBox(
                 height: 30,
