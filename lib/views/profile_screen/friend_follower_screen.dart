@@ -1,5 +1,4 @@
 import 'package:collage_me/controllers/friend_controller.dart';
-import 'package:collage_me/models/friend_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/friend_model.dart';
@@ -7,14 +6,14 @@ import '../components/bottom_navbar.dart';
 import '../components/fab_button.dart';
 import 'package:get/get.dart';
 
-class FollowerScreen extends StatefulWidget {
-  const FollowerScreen({Key? key}) : super(key: key);
+class FriendFollowerScreen extends StatefulWidget {
+  const FriendFollowerScreen({Key? key}) : super(key: key);
 
   @override
-  State<FollowerScreen> createState() => _FollowerScreenState();
+  State<FriendFollowerScreen> createState() => _FriendFollowerScreenState();
 }
 
-class _FollowerScreenState extends State<FollowerScreen> {
+class _FriendFollowerScreenState extends State<FriendFollowerScreen> {
   final FriendController _friendController = Get.put(FriendController());
 
   @override

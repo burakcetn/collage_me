@@ -1,77 +1,63 @@
-// To parse this JSON data, do
-//
-//     final userModel = userModelFromJson(jsonString);
-
-import 'dart:convert';
-
 class UserModel {
-  Data data;
-  Support support;
+  String? firstName;
+  String? lastName;
+  String? imgUrl;
+  String? id;
+  String? userName;
+  String? normalizedUserName;
+  String? email;
+  String? normalizedEmail;
+  bool? emailConfirmed;
+  String? passwordHash;
+  String? securityStamp;
+  String? concurrencyStamp;
+  dynamic phoneNumber;
+  bool? phoneNumberConfirmed;
+  bool? twoFactorEnabled;
+  dynamic lockoutEnd;
+  bool? lockoutEnabled;
+  int? accessFailedCount;
 
   UserModel({
-    required this.data,
-    required this.support,
+    this.firstName,
+    this.lastName,
+    this.imgUrl,
+    this.id,
+    this.userName,
+    this.normalizedUserName,
+    this.email,
+    this.normalizedEmail,
+    this.emailConfirmed,
+    this.passwordHash,
+    this.securityStamp,
+    this.concurrencyStamp,
+    this.phoneNumber,
+    this.phoneNumberConfirmed,
+    this.twoFactorEnabled,
+    this.lockoutEnd,
+    this.lockoutEnabled,
+    this.accessFailedCount,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        data: Data.fromJson(json["data"]),
-        support: Support.fromJson(json["support"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
-        "support": support.toJson(),
-      };
-}
-
-class Data {
-  int id;
-  String email;
-  String firstName;
-  String lastName;
-  String avatar;
-
-  Data({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.avatar,
-  });
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        imgUrl: json["imgUrl"],
         id: json["id"],
+        userName: json["userName"],
+        normalizedUserName: json["normalizedUserName"],
         email: json["email"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        avatar: json["avatar"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "first_name": firstName,
-        "last_name": lastName,
-        "avatar": avatar,
-      };
-}
-
-class Support {
-  String url;
-  String text;
-
-  Support({
-    required this.url,
-    required this.text,
-  });
-
-  factory Support.fromJson(Map<String, dynamic> json) => Support(
-        url: json["url"],
-        text: json["text"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "url": url,
-        "text": text,
-      };
+        normalizedEmail: json["normalizedEmail"],
+        emailConfirmed: json["emailConfirmed"],
+        passwordHash: json["passwordHash"],
+        securityStamp: json["securityStamp"],
+        concurrencyStamp: json["concurrencyStamp"],
+        phoneNumber: json["phoneNumber"],
+        phoneNumberConfirmed: json["phoneNumberConfirmed"],
+        twoFactorEnabled: json["twoFactorEnabled"],
+        lockoutEnabled: json["lockoutEnabled"],
+        lockoutEnd: json["lockoutEnd"],
+        accessFailedCount: json["accessFailedCount"]);
+  }
 }

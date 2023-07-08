@@ -1,3 +1,4 @@
+import 'package:collage_me/views/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,9 @@ class LoginViewModel extends GetxController {
   Future<void> loginUser(String email, String password) async {
     final response = await _loginService
         .fetchLogin(LoginRequestModel(email: email, password: password));
+
+    debugPrint(response?.token.toString());
+
     if (response != null) {
       /// Set isLogin to true
       _authManager.login(response.token);
@@ -36,20 +40,18 @@ class LoginViewModel extends GetxController {
     }
   }
 
-  Future<void> registerUser(String email, String password, String rePassword,
-      String firstName, String lastName, String userName) async {
+  Future<void> registerUser(
+      String email, String password, String rePassword, String userName) async {
     final response = await _loginService.register(RegisterRequestModel(
       email: email,
       password: password,
       userName: userName,
-      firstName: firstName,
-      lastName: lastName,
       rePassword: rePassword,
     ));
 
     if (response != null) {
       /// Set isLogin to true
-      _authManager.login(response.token);
+      _authManager.checkLoginStatus();
     } else {
       debugPrint(response.toString());
 

@@ -9,13 +9,15 @@ import '../components/fab_button.dart';
 import '../profile_screen/friend_profile_screen.dart';
 
 class UserSearchScreen extends StatefulWidget {
+  const UserSearchScreen({super.key});
+
   @override
   _UserSearchScreenState createState() => _UserSearchScreenState();
 }
 
 class _UserSearchScreenState extends State<UserSearchScreen> {
   final UserSearchService _userSearchService = UserSearchService();
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String searchText = '';
 
   @override

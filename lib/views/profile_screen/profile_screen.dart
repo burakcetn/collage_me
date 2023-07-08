@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:collage_me/controllers/image_helper.dart';
 import 'package:collage_me/controllers/user_collage_controller.dart';
 import 'package:collage_me/core/auth_manager.dart';
-import 'package:collage_me/models/friend_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:collage_me/models/user_model.dart';
 import 'package:collage_me/splah_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -12,7 +13,7 @@ import 'package:collage_me/views/profile_screen/follower_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../controllers/friend_controller.dart';
+import '../../controllers/profile_screen_controller.dart';
 import '../components/bottom_navbar.dart';
 import 'friend_profile_screen.dart';
 
@@ -25,10 +26,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final AuthenticationManager _authManager = Get.put(AuthenticationManager());
+  final LoginUserController _loginUserController =
+      Get.put(LoginUserController());
   final UserCollageController _userCollageController =
       Get.put(UserCollageController());
-  final FriendController _friendController = Get.put(FriendController());
-  late Future<FriendModel> futureFriend;
+  UserModel _userModel = Get.put(UserModel());
 
   final List friendRequest = [
     'Kullanıcı 1',
@@ -39,9 +41,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'Kullanıcı 6'
   ].obs;
 
+  Future userInformationFunction() async {
+    _userModel = await _loginUserController.getProfileData();
+    var userName = _userModel.userName.obs;
+    debugPrint(_userModel.userName);
+  }
+
+  Future<void> uploadImage(File imageFile) async {
+    final url =
+        'https://evliliksitesii.com/addAvatar'; // Replace with your API endpoint
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    request.files
+        .add(await http.MultipartFile.fromPath('image', imageFile.path));
+    // Add any additional parameters or headers to the request if needed
+
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      print(imageFile.path);
+      print('Image uploaded successfully');
+    } else {
+      print('Image upload failed with status code ${response.statusCode}');
+    }
+  }
+
   @override
   void initState() {
-    futureFriend = _friendController.getFriend();
+    userInformationFunction();
     _userCollageController.userCollage();
     super.initState();
   }
@@ -81,15 +106,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(
                 width: 10,
               ),
-              FutureBuilder(
-                future: futureFriend,
+              FutureBuilder<UserModel>(
+                future: _loginUserController.getProfileData(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text("asd",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary));
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(); // Show nothing while loading
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
                   } else {
-                    return Text('Kullanıcı Adı');
+                    final UserModel? userModel = snapshot.data;
+
+                    return Text(
+                      userModel?.userName ?? '',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary),
+                    );
                   }
                 },
               ),
@@ -125,9 +159,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (files != null) {
                           croppedFile = await imageHelper.crop(
                               file: files, cropStyle: CropStyle.circle);
-                        }
-                        if (croppedFile != null) {
-                          setState(() => _image = File(croppedFile.path));
+                          if (croppedFile != null) {
+                            setState(() => _image = File(croppedFile.path));
+                            await uploadImage(File(croppedFile
+                                .path)); // Send the image file to the API
+                          }
                         }
                       },
                       child: CircleAvatar(
@@ -144,7 +180,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => FollowerScreen());
+                    Get.to(() => FollowerScreen(),
+                        arguments: _userModel.userName);
                   },
                   child: Container(
                     height: 70,

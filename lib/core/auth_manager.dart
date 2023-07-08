@@ -1,7 +1,10 @@
+import 'package:collage_me/controllers/profile_screen_controller.dart';
 import 'package:collage_me/core/cache_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get.dart';
+
+import '../models/user_model.dart';
 
 class AuthenticationManager extends GetxController with CacheManager {
   final isLogged = false.obs;
@@ -11,9 +14,9 @@ class AuthenticationManager extends GetxController with CacheManager {
     removeToken();
   }
 
-  void login(String? token) async {
+  Future<void> login(String? token) async {
     isLogged.value = true;
-    //Token is cached
+    // Token is cached
     await saveToken(token);
   }
 

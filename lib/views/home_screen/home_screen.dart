@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collage_me/controllers/friend_controller.dart';
 import 'package:collage_me/controllers/login_user_id.dart';
+import 'package:collage_me/controllers/profile_screen_controller.dart';
 import 'package:collage_me/controllers/user_search_controller.dart';
 import 'package:collage_me/controllers/user_suggest_controller.dart';
 import 'package:collage_me/core/cache_manager.dart';
@@ -11,6 +12,7 @@ import 'package:collage_me/views/components/bottom_navbar.dart';
 
 import 'package:collage_me/views/components/fab_button.dart';
 import 'package:collage_me/views/home_screen/search_screen.dart';
+import 'package:collage_me/views/profile_screen/profile_screen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -32,11 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController userSearch = TextEditingController();
   final UserSuggestService _userSuggestService = Get.put(UserSuggestService());
   final StreamController _streamController = Get.put(StreamController());
-  final LoginUserId _loginUserId = Get.put(LoginUserId());
 
   @override
   initState() {
-    _loginUserId.logUserId();
     super.initState();
   }
 

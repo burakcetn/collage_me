@@ -46,14 +46,17 @@ class UserSearchService {
       (user) => user.userName.toLowerCase() == username.toLowerCase(),
       orElse: () => UserSearchModel(
         userName: '',
-        firstName: '',
-        lastName: '',
         userId: '',
       ),
     );
-    debugPrint(user.userName);
-    debugPrint(user.userId);
-    return user.userId.isNotEmpty ? user.userId : null;
+
+    if (user.userId.isNotEmpty) {
+      debugPrint(user.userName);
+      debugPrint(user.userId);
+      return user.userId;
+    } else {
+      return null;
+    }
   }
 
   void dispose() {

@@ -1,5 +1,6 @@
 import 'package:collage_me/controllers/user_search_controller.dart';
 import 'package:collage_me/views/components/fab_button.dart';
+import 'package:collage_me/views/profile_screen/friend_follower_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -16,11 +17,8 @@ class FriendProfileScreen extends StatefulWidget {
 }
 
 class _FriendProfileScreenState extends State<FriendProfileScreen> {
-  UserSearchService _userSearchService = Get.put(UserSearchService());
-
   @override
   void initState() {
-    String? userId = _userSearchService.findUserIdByUsername(Get.arguments);
     super.initState();
   }
 
@@ -74,7 +72,8 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => FollowerScreen());
+                    Get.to(() => FriendFollowerScreen(),
+                        arguments: Get.arguments);
                   },
                   child: Container(
                     height: 70,

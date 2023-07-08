@@ -20,6 +20,9 @@ class LoginService extends GetConnect {
   Future<LoginResponseModel?> fetchLogin(LoginRequestModel model) async {
     final response = await post(loginUrl, model.toJson());
     debugPrint(model.toJson().toString());
+
+    debugPrint("login ${response.statusCode}");
+
     if (response.statusCode == HttpStatus.ok) {
       return LoginResponseModel.fromJson(response.body);
     } else {

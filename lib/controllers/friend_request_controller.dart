@@ -8,13 +8,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class FriendController with CacheManager {
-  final apiUrl = Uri.parse('https://evliliksitesii.com/GetMyfriends');
+  final apiUrl = Uri.parse('https://evliliksitesii.com/GetFriendRequest');
+
   final http.Client client = http.Client();
 
-  Future<List<FriendModel>> getFriend() async {
+  Future<List<FriendModel>> getFriendRequest() async {
     final token = getToken();
     debugPrint(token);
-
     try {
       final response = await client.post(
         apiUrl,
@@ -33,6 +33,30 @@ class FriendController with CacheManager {
         }
 
         return users;
+      } else {
+        debugPrint('Server returned status code: ${response.statusCode}');
+        throw Exception('Failed to fetch user search results');
+      }
+    } catch (e) {
+      throw Exception('Error during user search: $e');
+    }
+  }
+
+  Future sendFriendRequest(userId) async {
+    final token = getToken();
+    final sendFriendUrl =
+        Uri.parse('https://evliliksitesii.com/addFriend/$userId');
+    try {
+      final response = await client.post(
+        sendFriendUrl,
+        body: jsonEncode({'token': token}),
+        headers: {"Content-type": "application/json"},
+      );
+
+      debugPrint(response.body.toString());
+      debugPrint(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        return;
       } else {
         debugPrint('Server returned status code: ${response.statusCode}');
         throw Exception('Failed to fetch user search results');
