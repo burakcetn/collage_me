@@ -1,3 +1,5 @@
+import 'package:collage_me/controllers/user_collage_controller.dart';
+import 'package:collage_me/models/collage_set_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -5,8 +7,21 @@ import '../components/bottom_navbar.dart';
 import '../components/collages.dart';
 import '../components/fab_button.dart';
 
-class CollageSelection extends StatelessWidget {
+class CollageSelection extends StatefulWidget {
   const CollageSelection({Key? key}) : super(key: key);
+
+  @override
+  State<CollageSelection> createState() => _CollageSelectionState();
+}
+
+class _CollageSelectionState extends State<CollageSelection> {
+  final SetCollage _setCollage = Get.put(SetCollage());
+
+  @override
+  void initState() {
+    _setCollage.createCollage();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +40,7 @@ class CollageSelection extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: Text("Choose Your Layout"),
+        title: Text("layout".tr),
       ),
       body: SafeArea(
         child: GridView(

@@ -1,16 +1,24 @@
 import 'dart:convert';
-
+import 'package:collage_me/core/cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class UserCollageController {
-  static const String apiUrl =
-      'https://evliliksitesii.com/api/Collage/GetCollegeWithUserId';
+class UserCollageController with CacheManager {
+  final apiUrl = Uri.parse('https://evliliksitesii.com/GetCollageWithUserId');
+  final http.Client client = http.Client();
 
-  Future<NetworkImage> userCollage() async {
+  Future<bool> userCollage() async {
     try {
-      final response = await http.get(Uri.parse(apiUrl));
-      debugPrint(response.body);
+      final response = await client.get(
+        apiUrl,
+        headers: {
+          "Authorization":
+              "Bearer ${getToken()}", // Add token parameter to headers
+        },
+      );
+
+      debugPrint(response.body.toString());
+      debugPrint(response.statusCode.toString());
 
       if (response.statusCode == 200) {
         debugPrint("girdi");
@@ -18,11 +26,7 @@ class UserCollageController {
         final List<dynamic> responseData = jsonDecode(response.body);
         final List<NetworkImage> usersCollage = [];
 
-        /*for (var user in responseData) {
-          usersCollage.add(NetworkImage(url).fromJson(user));
-        }*/
-
-        return NetworkImage("wwww.burak.com");
+        return true;
       } else {
         debugPrint(response.statusCode.toString());
         throw Exception('Failed to fetch user search results');

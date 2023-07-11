@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:collage_me/core/cache_manager.dart';
 import 'package:collage_me/models/friend_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 class FriendController with CacheManager {
@@ -16,15 +14,17 @@ class FriendController with CacheManager {
     debugPrint(token);
 
     try {
-      final response = await client.post(
+      final response = await client.get(
         apiUrl,
-        body: jsonEncode({'token': token}),
-        headers: {"Content-type": "application/json"},
+        headers: {
+          //"Content-type": "application/json",
+          "Authorization": "Bearer $token",
+        },
       );
 
-      debugPrint(response.body.toString());
-      debugPrint(response.statusCode.toString());
       if (response.statusCode == 200) {
+        debugPrint("getfriend : ${response.body.toString()}");
+        debugPrint(response.statusCode.toString());
         final List<dynamic> responseData = jsonDecode(response.body);
         var users = <FriendModel>[];
 

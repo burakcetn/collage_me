@@ -7,19 +7,21 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-class FriendController with CacheManager {
+class FriendRequestController with CacheManager {
   final apiUrl = Uri.parse('https://evliliksitesii.com/GetFriendRequest');
 
   final http.Client client = http.Client();
 
   Future<List<FriendModel>> getFriendRequest() async {
     final token = getToken();
-    debugPrint(token);
+    debugPrint("friend request");
     try {
-      final response = await client.post(
+      final response = await client.get(
         apiUrl,
-        body: jsonEncode({'token': token}),
-        headers: {"Content-type": "application/json"},
+        //body: jsonEncode({'token': token}),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
       );
 
       debugPrint(response.body.toString());

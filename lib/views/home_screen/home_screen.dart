@@ -1,25 +1,12 @@
 import 'dart:async';
-
 import 'package:collage_me/controllers/friend_controller.dart';
-import 'package:collage_me/controllers/login_user_id.dart';
-import 'package:collage_me/controllers/profile_screen_controller.dart';
-import 'package:collage_me/controllers/user_search_controller.dart';
+import 'package:collage_me/controllers/user_collage_controller.dart';
 import 'package:collage_me/controllers/user_suggest_controller.dart';
-import 'package:collage_me/core/cache_manager.dart';
-import 'package:collage_me/models/loged_user_model.dart';
-
 import 'package:collage_me/views/components/bottom_navbar.dart';
-
 import 'package:collage_me/views/components/fab_button.dart';
 import 'package:collage_me/views/home_screen/search_screen.dart';
-import 'package:collage_me/views/profile_screen/profile_screen.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-
-import '../../models/user_search_model.dart';
 import '../components/banner_admob.dart';
 import '../components/home_screen_grid_view.dart';
 
@@ -34,9 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController userSearch = TextEditingController();
   final UserSuggestService _userSuggestService = Get.put(UserSuggestService());
   final StreamController _streamController = Get.put(StreamController());
+  final UserCollageController _controller = Get.put(UserCollageController());
+  final FriendController _friendController = Get.put(FriendController());
 
   @override
   initState() {
+    debugPrint(_controller.getToken());
+    _friendController.getFriend();
     super.initState();
   }
 
@@ -85,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                "Arkadaş Önerileri",
+                "suggestion".tr,
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall

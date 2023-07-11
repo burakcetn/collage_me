@@ -86,7 +86,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          "Takipçi :",
+                          "friends".tr,
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium

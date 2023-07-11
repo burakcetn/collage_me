@@ -20,23 +20,19 @@ class LoginUserController with CacheManager {
     final token = getToken();
 
     try {
-      final response = await client.post(
+      final response = await client.get(
         apiUrl,
-        body: jsonEncode({'token': token}),
-        headers: {"Content-type": "application/json"},
+        headers: {
+          "Authorization": "Bearer $token",
+        },
       );
 
       debugPrint(response.body.toString());
       debugPrint(response.statusCode.toString());
 
       if (response.statusCode == 200) {
-        final List<dynamic> responseData = jsonDecode(response.body);
-        if (responseData.isNotEmpty) {
-          final Map<String, dynamic> userMap = responseData.first;
-          return UserModel.fromJson(userMap);
-        } else {
-          throw Exception('User not found');
-        }
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        return UserModel.fromJson(responseData);
       } else {
         _authenticationManager.logOut();
         Get.off(() => const OnBoard());
@@ -46,7 +42,6 @@ class LoginUserController with CacheManager {
     } catch (e) {
       _authenticationManager.logOut();
       Get.off(() => const OnBoard());
-
       throw Exception('Error during user search: $e');
     }
   }

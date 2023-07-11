@@ -1,3 +1,4 @@
+import 'package:collage_me/controllers/user_collage_controller.dart';
 import 'package:collage_me/views/collage_screen/comment_view.dart';
 import 'package:collage_me/views/components/banner_admob.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,23 @@ import 'package:collage_me/views/components/fab_button.dart';
 import '../../controllers/admob_helper.dart';
 import '../components/bottom_navbar.dart';
 import '../components/collages.dart';
-import '../components/home_screen_grid_view.dart';
+import 'package:get/get.dart';
 
-class CollageScreen extends StatelessWidget {
+class CollageScreen extends StatefulWidget {
   const CollageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CollageScreen> createState() => _CollageScreenState();
+}
+
+class _CollageScreenState extends State<CollageScreen> {
+  UserCollageController _collageController = Get.put(UserCollageController());
+
+  @override
+  initState() {
+    _collageController.userCollage();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

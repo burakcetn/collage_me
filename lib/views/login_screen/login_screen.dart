@@ -1,9 +1,9 @@
+import 'package:collage_me/core/auth_manager.dart';
+import 'package:collage_me/core/cache_manager.dart';
 import 'package:collage_me/resources/color_manager.dart';
-import 'package:collage_me/splah_screen.dart';
 import 'package:collage_me/views/login_screen/onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'login_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,16 +21,53 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController lastName = TextEditingController();
   TextEditingController userName = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _showPassword = false;
   FormType _formType = FormType.login;
   LoginViewModel _viewModel = Get.put(LoginViewModel());
   bool _isRegistering = false; // Added variable
   bool _isLoggingIn = false; // Added variable
+  AuthenticationManager langCache = Get.put(AuthenticationManager());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        elevation: 0,
+        leading: PopupMenuButton<int>(
+          icon: Icon(Icons.language),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+              // row with 2 children
+              child: Text(
+                "Tr",
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ),
+            PopupMenuItem(
+              value: 2,
+              // row with two children
+              child: Text(
+                "En",
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ),
+          ],
+          onSelected: (value) {
+            if (value == 1) {
+              langCache.saveLanguage("tr");
+              langCache.changeLang("tr");
+            } else if (value == 2) {
+              langCache.saveLanguage("en");
+              langCache.changeLang("en");
+            }
+          },
+        ),
+        title: Text(
+          "language".tr,
+          style: Theme.of(context).textTheme.labelSmall,
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
@@ -94,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onPressed: _isLoggingIn ? null : () => login(),
             child: _isLoggingIn
                 ? CircularProgressIndicator() // Show loading indicator
-                : Text('Login'),
+                : Text('login'.tr),
           ),
           SizedBox(height: 32),
           TextButton(
@@ -103,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _formType = FormType.register;
               });
             },
-            child: Text('Kayıt Ol'),
+            child: Text('register'.tr),
           ),
         ],
       ),
@@ -154,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: _isRegistering ? null : () => registerUser(),
               child: _isRegistering
                   ? CircularProgressIndicator() // Show loading indicator
-                  : Text('Register'),
+                  : Text('register'.tr),
             ),
             SizedBox(
               height: 8,
@@ -168,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _formType = FormType.login;
                   });
                 },
-                child: Text('Geri'),
+                child: Text('back'.tr),
               ),
             ),
           ],
