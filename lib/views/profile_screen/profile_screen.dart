@@ -1,12 +1,11 @@
 import 'dart:io';
-import 'package:collage_me/controllers/friend_controller.dart';
 import 'package:collage_me/controllers/friend_request_controller.dart';
 import 'package:collage_me/controllers/image_helper.dart';
-import 'package:collage_me/controllers/user_collage_controller.dart';
 import 'package:collage_me/core/auth_manager.dart';
-import 'package:http/http.dart' as http;
+import 'package:collage_me/models/friend_request_model.dart';
 import 'package:collage_me/models/user_model.dart';
 import 'package:collage_me/splah_screen.dart';
+import 'package:collage_me/views/profile_screen/onboard_profile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:collage_me/views/components/fab_button.dart';
@@ -34,18 +33,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   UserModel _userModel = Get.put(UserModel());
   final FriendRequestController _friendRequestControllerController =
       Get.put(FriendRequestController());
+  final FriendRequestController _friendRequestController =
+      Get.put(FriendRequestController());
 
-  final List friendRequest = [
-    'Kullanıcı 1',
-    'Kullanıcı 2',
-    'Kullanıcı 3',
-    'Kullanıcı 4',
-    'Kullanıcı 5',
-    'Kullanıcı 6'
-  ].obs;
+  String? uploadedImageUrl;
+  bool isImageUploaded = false;
+  List<FriendRequestModel> _requestList = [];
 
-  Future userInformationFunction() async {
+  Future<void> userInformationFunction() async {
     _userModel = await _loginUserController.getProfileData();
+  }
+
+  Stream<List<FriendRequestModel>> getFriendRequestStream() {
+    return _friendRequestController.getFriendRequest().asStream();
   }
 
   Future<void> uploadImageDio(File imageFile) async {
@@ -53,7 +53,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final dioService = dio.Dio();
     String fileName = imageFile.path.split('/').last;
 
+    Get.off(() => OnboardProfile());
+
     try {
+      isImageUploaded = false;
       dioService.options.headers['Authorization'] =
           "Bearer ${_friendRequestControllerController.getToken()}";
       dioService.options.contentType = 'multipart/form-data';
@@ -64,6 +67,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       final response = await dioService.post(url, data: formData);
       if (response.statusCode == 200) {
+        uploadedImageUrl = response.data['imageUrl'];
+        setState(() {
+          isImageUploaded = true;
+        });
         Get.off(() => ProfileScreen());
       } else {
         print('Image upload failed with status code ${response.statusCode}');
@@ -75,15 +82,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    _friendRequestControllerController.getFriendRequest();
-    userInformationFunction();
-    //_userCollageController.userCollage();
     super.initState();
+    userInformationFunction();
   }
 
   File? _image;
   final imageHelper = Get.put(ImageHelper());
-  // ignore: prefer_typing_uninitialized_variables
   var croppedFile;
 
   @override
@@ -177,8 +181,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 try {
                                   await uploadImageDio(File(croppedFile.path));
                                   print('Image uploaded successfully');
+                                  Get.snackbar("Image", "upload successfully");
                                 } catch (e) {
                                   print('Error uploading image: $e');
+                                  Get.snackbar(
+                                      "Error", "upload unsuccessfully");
                                 }
                               }
                             }
@@ -186,8 +193,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: CircleAvatar(
                             backgroundColor: Colors.white,
                             radius: 36,
-                            foregroundImage:
-                                NetworkImage(userModel?.imgUrl ?? ''),
+                            foregroundImage: NetworkImage(isImageUploaded
+                                ? uploadedImageUrl!
+                                : userModel?.imgUrl ?? ''),
                             child: const Icon(Icons.person),
                           ),
                         ),
@@ -221,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           .surfaceTint),
                             ),
                             Text(
-                              "453",
+                              _userModel.friendsCount.toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
@@ -248,121 +256,148 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   Expanded(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                    child: StreamBuilder<List<FriendRequestModel>>(
+                      stream: getFriendRequestStream(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          _requestList = snapshot.data ?? [];
+
+                          return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               mainAxisSpacing: 8,
                               crossAxisSpacing: 8,
                               crossAxisCount: 2,
-                              childAspectRatio: 0.85),
-                      itemCount: 6,
-                      itemBuilder: (context, itemNumber) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 20.h,
-                            width: 20.w,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              borderRadius: BorderRadius.circular(10),
+                              childAspectRatio: 0.85,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.to(const FriendProfileScreen(),
-                                          arguments: friendRequest[itemNumber]);
-                                    },
-                                    child: Container(
-                                      height: 12.h,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceVariant,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                        "Profil foto",
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
-                                      )),
-                                    ),
+                            itemCount: _requestList.length,
+                            itemBuilder: (context, itemNumber) {
+                              final requestItem = _requestList[itemNumber];
+
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 20.h,
+                                  width: 20.w,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  Container(
-                                    height: 10.h,
-                                    width: 100.w,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .surfaceVariant,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 8),
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            friendRequest[itemNumber],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelSmall
-                                                ?.copyWith(
-                                                  color: Colors.black,
-                                                ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: 4.h,
-                                              width: 8.h,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              child: Icon(
-                                                Icons.done_rounded,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.to(
+                                              FriendProfileScreen(),
+                                              arguments: requestItem.userId,
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 12.h,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceVariant,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                requestItem.userId!,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge,
                                               ),
                                             ),
-                                            Container(
-                                              height: 4.h,
-                                              width: 8.h,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.red,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              child: Icon(
-                                                Icons.close_rounded,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary,
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 10.h,
+                                          width: 100.w,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .surfaceVariant,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  _friendRequestController
+                                                      .confirmFriend(
+                                                    requestItem.userId!,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 4.h,
+                                                  width: 8.h,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.done_rounded,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                  ),
+                                                ),
                                               ),
-                                            )
-                                          ],
-                                        )
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  _friendRequestController
+                                                      .declineFriend(
+                                                          requestItem.userId!);
+                                                },
+                                                child: Container(
+                                                  height: 4.h,
+                                                  width: 8.h,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.close_rounded,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   ),

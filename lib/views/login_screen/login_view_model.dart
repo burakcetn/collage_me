@@ -1,4 +1,3 @@
-import 'package:collage_me/views/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +5,6 @@ import '../../controllers/login_services.dart';
 import '../../core/auth_manager.dart';
 import '../../models/login_request_model.dart';
 import '../../models/register_request_model.dart';
-import '../../splah_screen.dart';
 
 class LoginViewModel extends GetxController {
   late final LoginService _loginService;
@@ -57,7 +55,7 @@ class LoginViewModel extends GetxController {
 
       /// Show user a dialog about the error response
       Get.defaultDialog(
-          middleText: 'Register Error',
+          middleText: 'Giriş Yapınız',
           textConfirm: 'OK',
           confirmTextColor: Colors.white,
           onConfirm: () {

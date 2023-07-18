@@ -3,11 +3,9 @@ import 'package:collage_me/core/auth_manager.dart';
 import 'package:collage_me/views/login_screen/onboard.dart';
 import 'package:get/get.dart';
 import 'package:collage_me/core/cache_manager.dart';
-import 'package:collage_me/models/friend_model.dart';
 import 'package:collage_me/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 class LoginUserController with CacheManager {

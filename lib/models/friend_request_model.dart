@@ -1,18 +1,9 @@
-import 'package:collage_me/core/cache_manager.dart';
-
-import '../core/cache_manager.dart';
-import '../core/cache_manager.dart';
-import '../core/cache_manager.dart';
-
 class FriendRequestModel {
-  String? token;
+  String? userId;
 
-  FriendRequestModel({this.token});
+  FriendRequestModel({this.userId});
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-
-    data['token'] = token;
-    return data;
+  factory FriendRequestModel.fromJson(String userId) {
+    return FriendRequestModel(userId: userId);
   }
 }

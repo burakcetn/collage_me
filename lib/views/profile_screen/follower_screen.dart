@@ -1,5 +1,5 @@
 import 'package:collage_me/controllers/friend_controller.dart';
-import 'package:collage_me/models/friend_request_model.dart';
+import 'package:collage_me/views/profile_screen/friend_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/friend_model.dart';
@@ -76,8 +76,11 @@ class _FollowerScreenState extends State<FollowerScreen> {
                 : Column(
                     children: [
                       Expanded(
-                        child: ListView.builder(
+                        child: GridView.builder(
                           itemCount: friends.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
                           itemBuilder: (context, index) {
                             final FriendModel friend = friends[index];
                             return Padding(
@@ -90,31 +93,38 @@ class _FollowerScreenState extends State<FollowerScreen> {
                                   color:
                                       Theme.of(context).colorScheme.onPrimary,
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    CircleAvatar(
-                                      child: Icon(
-                                        Icons.person,
-                                        color: Theme.of(context)
+                                    /* Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        child: Icon(
+                                          Icons.person,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
+                                        backgroundColor: Theme.of(context)
                                             .colorScheme
-                                            .onPrimary,
+                                            .primary,
+                                        radius: 32,
                                       ),
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      radius: 32,
-                                    ),
-                                    Container(
-                                      constraints:
-                                          BoxConstraints(maxWidth: 50.w),
-                                      child: Text(
-                                        'User ID 1: ${friend.userId1}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium,
-                                        softWrap: true,
-                                        overflow: TextOverflow.ellipsis,
+                                    ),*/
+                                    GestureDetector(
+                                      onTap: () => Get.to(FriendProfileScreen(),
+                                          arguments: friend.userId),
+                                      child: Container(
+                                        constraints:
+                                            BoxConstraints(maxWidth: 50.w),
+                                        child: Text(
+                                          '${friend.userId?.toLowerCase()}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(

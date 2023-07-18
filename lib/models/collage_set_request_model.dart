@@ -4,38 +4,30 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class SetCollage with CacheManager {
-  int collageId = 0;
-  String userId = "String";
-  String? collageName = "a";
-  int collageStyle = 1;
-  int photoCount = 5;
-
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(int style) {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
+    int collageStyle = style;
     data['collageStyle'] = collageStyle;
-    data['collageName'] = collageName;
-    data['collageSize'] = photoCount;
-    data["collageId"] = collageId;
-    data["userId"] = userId;
 
     debugPrint(data.toString());
     return data;
   }
 
-  Future<void> createCollage() async {
-    final url = 'https://evliliksitesii.com/addCollage';
+  Future<void> createCollage(int style) async {
+    final url = 'https://evliliksitesii.com/changeCollageStyle/$style';
     final headers = {
-      'Content-Type': 'application/json',
       "Authorization": "Bearer ${getToken()}",
     };
-    final body = jsonEncode(toJson());
-
-    final response =
-        await http.post(Uri.parse(url), headers: headers, body: body);
+    final body = jsonEncode(toJson(style));
+    debugPrint(url);
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers, /*body: body*/
+    );
 
     if (response.statusCode == 200) {
-      debugPrint('Collage created successfully');
+      debugPrint('collage updated succesfully');
     } else {
       debugPrint(
           'Collage creation failed with status code ${response.statusCode}');

@@ -14,7 +14,7 @@ import '../models/register_response_model.dart';
 /// via authenticaton related APIs
 class LoginService extends GetConnect {
   final String loginUrl = 'https://evliliksitesii.com/password/email';
-  final String registerUrl = 'https://evliliksitesii.com/api/Account/Register';
+  final String registerUrl = 'https://evliliksitesii.com/api/Login/Register';
   final content = 'application/json';
 
   Future<LoginResponseModel?> fetchLogin(LoginRequestModel model) async {
@@ -33,7 +33,7 @@ class LoginService extends GetConnect {
 
   Future<RegisterResponseModel?> register(
       RegisterRequestModel registerRequestModel) async {
-    final url = 'https://evliliksitesii.com/api/Account/Register';
+    //final url = 'https://evliliksitesii.com/api/Account/Register';
 
     final headers = {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ class LoginService extends GetConnect {
 
     try {
       final response = await http.post(
-        Uri.parse(url),
+        Uri.parse(registerUrl),
         headers: headers,
         body: jsonBody,
       );

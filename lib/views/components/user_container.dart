@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../models/user_suggest_response_model.dart';
 import '../profile_screen/friend_profile_screen.dart';
 import 'package:get/get.dart';
 
-class HomeScreenUserContainer extends StatelessWidget {
-  HomeScreenUserContainer({super.key, required this.userName});
+class HomeScreenUserContainer extends StatefulWidget {
+  HomeScreenUserContainer({super.key, required this.userName, this.imgUrl});
 
   String? userName;
-  final List friendRequest = [
-    'Kullanıcı 1',
-    'Kullanıcı 2',
-    'Kullanıcı 3',
-    'Kullanıcı 4',
-    'Kullanıcı 5',
-    'Kullanıcı 6',
-  ].obs;
+  String? imgUrl;
+
+  @override
+  State<HomeScreenUserContainer> createState() =>
+      _HomeScreenUserContainerState();
+}
+
+class _HomeScreenUserContainerState extends State<HomeScreenUserContainer> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(const FriendProfileScreen(), arguments: userName);
+        //await _userController.getFriendProfile();
+        Get.to(FriendProfileScreen(), arguments: widget.userName);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -45,7 +49,26 @@ class HomeScreenUserContainer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimary,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: const Placeholder(),
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                      child: widget.imgUrl == null
+                          ? Center(
+                              child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ))
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image(
+                                  image: NetworkImage(widget.imgUrl!),
+                                  fit: BoxFit.fill)),
+                    ),
+                  ),
                 ),
                 Container(
                   height: 5.h,
@@ -55,7 +78,9 @@ class HomeScreenUserContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
-                    userName != null ? userName! : "Kullanıcı Adı",
+                    widget.userName != null
+                        ? widget.userName!
+                        : "Kullanıcı Adı",
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: Colors.black,
                         ),

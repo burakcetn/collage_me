@@ -19,7 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale locale = Locale("tr");
+  Locale locale = const Locale("tr");
   AuthenticationManager langCache = Get.put(AuthenticationManager());
 
   @override

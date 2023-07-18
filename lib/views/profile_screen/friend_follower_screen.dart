@@ -108,7 +108,7 @@ class _FriendFollowerScreenState extends State<FriendFollowerScreen> {
                                       constraints:
                                           BoxConstraints(maxWidth: 50.w),
                                       child: Text(
-                                        'User ID 1: ${friend.userId1}',
+                                        'User ID 1: ${friend.userId}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium,

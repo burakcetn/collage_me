@@ -69,56 +69,53 @@ class _HomeScreenState extends State<HomeScreen> {
               ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
         ),
       ),
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "suggestion".tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "suggestion".tr,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BannerAdmob(),
-            ),
-            Expanded(
-                child: FutureBuilder(
-              future: _userSuggestService.userSuggest(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return GridView.builder(
-                      itemCount: 1,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 0,
-                          crossAxisSpacing: 0,
-                          crossAxisCount: 1,
-                          childAspectRatio: 0.8),
-                      itemBuilder: (context, itemNumber) {
-                        return HomeScreenGridView(
-                          suggestionsList: snapshot.data!,
-                        );
-                      });
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const Center(
-                    child: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: CircularProgressIndicator()));
-              },
-            )),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BannerAdmob(),
+          ),
+          Expanded(
+              child: FutureBuilder(
+            future: _userSuggestService.userSuggest(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return GridView.builder(
+                    itemCount: 1,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisSpacing: 0,
+                        crossAxisSpacing: 0,
+                        crossAxisCount: 1,
+                        childAspectRatio: 0.8),
+                    itemBuilder: (context, itemNumber) {
+                      return HomeScreenGridView(
+                        suggestionsList: snapshot.data!,
+                      );
+                    });
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const Center(
+                  child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator()));
+            },
+          )),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
       ),
     );
   }

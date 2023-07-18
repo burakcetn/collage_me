@@ -1,5 +1,4 @@
 import 'package:collage_me/core/auth_manager.dart';
-import 'package:collage_me/core/cache_manager.dart';
 import 'package:collage_me/resources/color_manager.dart';
 import 'package:collage_me/views/login_screen/onboard.dart';
 import 'package:flutter/material.dart';
@@ -164,6 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 12,
             ),
             TextFormField(
+              keyboardType: TextInputType.emailAddress,
               style: Theme.of(context).textTheme.labelSmall,
               controller: email,
               decoration: inputDecoration('E-mail', Icons.person),

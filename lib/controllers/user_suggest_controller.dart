@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:collage_me/models/user_search_model.dart';
 import 'package:collage_me/models/user_suggest_response_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +9,9 @@ class UserSuggestService {
 
   Future<List<UserSuggestModel>> userSuggest() async {
     try {
-      final response = await http.get(Uri.parse(apiUrl));
+      final response = await http.get(
+        Uri.parse(apiUrl),
+      );
       debugPrint(response.body);
 
       if (response.statusCode == 200) {
