@@ -10,15 +10,16 @@ import 'package:flutter/material.dart';
 
 class LoginUserController with CacheManager {
   final apiUrl = Uri.parse('https://evliliksitesii.com/userInformation');
-  final http.Client client = http.Client();
+
   final AuthenticationManager _authenticationManager =
       Get.put(AuthenticationManager());
 
   Future<UserModel> getProfileData() async {
     final token = getToken();
 
+    debugPrint(token);
     try {
-      final response = await client.get(
+      final response = await http.get(
         apiUrl,
         headers: {
           "Authorization": "Bearer $token",
@@ -44,7 +45,5 @@ class LoginUserController with CacheManager {
     }
   }
 
-  void dispose() {
-    client.close();
-  }
+  void dispose() {}
 }

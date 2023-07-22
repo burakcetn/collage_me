@@ -1,4 +1,3 @@
-import 'package:collage_me/resources/color_manager.dart';
 import 'package:collage_me/views/collage_screen/collage_screen.dart';
 import 'package:collage_me/views/collage_screen/onboard_collage.dart';
 import 'package:collage_me/views/components/bottom_navbar.dart';

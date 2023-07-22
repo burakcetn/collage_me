@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:collage_me/controllers/friend_request_controller.dart';
+import 'package:collage_me/controllers/wallpaper_controller.dart';
 import 'package:collage_me/views/components/fab_button.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
@@ -12,6 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../comment_screen.dart';
 import '../../controllers/friend_profile_controller.dart';
 import '../../controllers/profile_screen_controller.dart';
+import '../../core/auth_manager.dart';
 import '../../models/friend_profile_model.dart';
 import '../../models/user_model.dart';
 import '../components/bottom_navbar.dart';
@@ -33,6 +36,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
   UserModel? _userModel;
   LoginUserController _loginUserController = Get.put(LoginUserController());
   ScreenshotController screenshotController = ScreenshotController();
+  WallpaperController wallpaperController = Get.put(WallpaperController());
 
   @override
   void initState() {
@@ -73,12 +77,16 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     final filePath = '${directory.path}/output.png';
 
                     final file = io.File(filePath);
+                    await file.writeAsBytes(capturedImage);
 
                     try {
-                      await file.writeAsBytes(capturedImage);
+                      await wallpaperController.postWallpaper(file);
                       final result =
                           await WallpaperManager.setWallpaperFromFile(
-                              filePath, WallpaperManager.HOME_SCREEN);
+                              filePath,
+                              widget.arguments != null
+                                  ? widget.arguments
+                                  : Get.arguments);
                       print(result);
                     } catch (e) {
                       print(e);

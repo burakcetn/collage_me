@@ -30,7 +30,7 @@ class Collage0 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -126,7 +126,7 @@ class Collage1 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -299,7 +299,7 @@ class Collage2 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -379,7 +379,7 @@ class Collage2 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  1,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -398,7 +398,7 @@ class Collage2 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  2,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -417,7 +417,7 @@ class Collage2 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  3,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -454,7 +454,7 @@ class Collage3 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -534,7 +534,7 @@ class Collage3 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  1,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -553,7 +553,7 @@ class Collage3 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  2,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -572,7 +572,7 @@ class Collage3 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  3,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -610,7 +610,7 @@ class Collage4 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -691,7 +691,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  1,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -710,7 +710,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  2,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -729,7 +729,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  3,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -748,7 +748,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  4,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -767,7 +767,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  5,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -786,7 +786,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  6,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -805,7 +805,7 @@ class Collage4 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  7,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -842,7 +842,7 @@ class Collage5 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -922,7 +922,7 @@ class Collage5 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  1,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -941,7 +941,7 @@ class Collage5 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  2,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -960,7 +960,7 @@ class Collage5 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  3,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -979,7 +979,7 @@ class Collage5 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  4,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -1016,7 +1016,7 @@ class Collage6 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -1096,7 +1096,7 @@ class Collage6 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  1,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -1115,7 +1115,7 @@ class Collage6 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  2,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),
@@ -1153,7 +1153,7 @@ class Collage7 extends StatelessWidget {
 
   Future<void> _pickAndCropImage(
       BuildContext context, int index, int? collageId, int screen) async {
-    final pickedImage = await imageHelper.pickImage();
+    final pickedImage = await imageHelper.pickImage(imageQuality: 85);
     if (pickedImage != null) {
       final croppedImage = await imageHelper.crop(file: pickedImage);
       if (croppedImage != null) {
@@ -1233,7 +1233,7 @@ class Collage7 extends StatelessWidget {
             child: GestureDetector(
               onTap: () => _pickAndCropImage(
                   context,
-                  0,
+                  1,
                   collagePhotos != null
                       ? (collagePhotos?[0].collageId)
                       : (collageFriendPhotos?[0].collageId),

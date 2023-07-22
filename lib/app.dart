@@ -1,8 +1,8 @@
 import 'package:collage_me/core/auth_manager.dart';
 import 'package:collage_me/language/languages.dart';
-import 'package:collage_me/resources/color_schemes.dart';
-import 'package:collage_me/resources/theme_manager.dart';
 import 'package:collage_me/splah_screen.dart';
+import 'package:collage_me/utils/color_schemes.dart';
+import 'package:collage_me/utils/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';

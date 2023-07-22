@@ -22,6 +22,7 @@ class LoginService extends GetConnect {
     debugPrint(model.toJson().toString());
 
     debugPrint("login ${response.statusCode}");
+    debugPrint(response.bodyString);
 
     if (response.statusCode == HttpStatus.ok) {
       return LoginResponseModel.fromJson(response.body);

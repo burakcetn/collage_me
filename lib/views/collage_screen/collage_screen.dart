@@ -5,11 +5,13 @@ import 'package:collage_me/comment_screen.dart';
 import 'package:collage_me/controllers/comment_controller.dart';
 import 'package:collage_me/controllers/friend_profile_controller.dart';
 import 'package:collage_me/controllers/user_collage_controller.dart';
+import 'package:collage_me/controllers/wallpaper_controller.dart';
 import 'package:collage_me/models/comment_model.dart';
 import 'package:collage_me/models/friend_profile_model.dart';
 import 'package:collage_me/models/user_collage_model.dart';
 import 'package:collage_me/models/user_model.dart';
 import 'package:collage_me/views/components/banner_admob.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
@@ -19,6 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collage_me/views/components/fab_button.dart';
 import '../../controllers/profile_screen_controller.dart';
+import '../../core/auth_manager.dart';
 import '../components/bottom_navbar.dart';
 import '../components/collages.dart';
 import 'package:get/get.dart';
@@ -40,6 +43,7 @@ class _CollageScreenState extends State<CollageScreen> {
   ScreenshotController screenshotController = ScreenshotController();
   List<CommentModel> commentList = [];
   UserModel? _userModel;
+  WallpaperController wallpaperController = Get.put(WallpaperController());
 
   @override
   void initState() {
@@ -52,7 +56,7 @@ class _CollageScreenState extends State<CollageScreen> {
   }
 
   Future<dynamic> ShowCapturedWidget(
-      BuildContext context, Uint8List capturedImage) {
+      BuildContext context, Uint8List capturedImage, String? username) {
     return showDialog(
       useSafeArea: false,
       context: context,
@@ -72,12 +76,14 @@ class _CollageScreenState extends State<CollageScreen> {
                     final filePath = '${directory.path}/output.png';
 
                     final file = io.File(filePath);
+                    await file.writeAsBytes(capturedImage);
 
                     try {
-                      await file.writeAsBytes(capturedImage);
+                      await wallpaperController.postWallpaper(file);
                       final result =
                           await WallpaperManager.setWallpaperFromFile(
-                              filePath, WallpaperManager.HOME_SCREEN);
+                              filePath, WallpaperManager.BOTH_SCREEN);
+
                       print(result);
                     } catch (e) {
                       print(e);
@@ -99,8 +105,6 @@ class _CollageScreenState extends State<CollageScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
   }
 
@@ -237,7 +241,9 @@ class _CollageScreenState extends State<CollageScreen> {
                                                       milliseconds: 10))
                                               .then((capturedImage) async {
                                             ShowCapturedWidget(
-                                                context, capturedImage!);
+                                                context,
+                                                capturedImage!,
+                                                _userModel?.username);
                                           }).catchError((onError) {
                                             print(onError);
                                           });

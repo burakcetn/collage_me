@@ -1,8 +1,8 @@
 import 'package:collage_me/core/auth_manager.dart';
-import 'package:collage_me/resources/color_manager.dart';
 import 'package:collage_me/views/login_screen/onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../utils/color_manager.dart';
 import 'login_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +25,19 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isRegistering = false; // Added variable
   bool _isLoggingIn = false; // Added variable
   AuthenticationManager langCache = Get.put(AuthenticationManager());
+
+  String? validatePassword(String? value) {
+    // Password must contain at least 1 uppercase letter and 1 digit
+    final RegExp uppercaseRegex = RegExp(r'[A-Z]');
+    final RegExp digitRegex = RegExp(r'[0-9]');
+
+    if (value == null ||
+        !uppercaseRegex.hasMatch(value) ||
+        !digitRegex.hasMatch(value)) {
+      return 'Password must contain at least 1 uppercase letter and 1 digit';
+    }
+    return null; // Return null if the password is valid
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +121,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ? 'Please Enter Email'
                   : null;
             },
-            decoration: inputDecoration('E-mail', Icons.person),
+            decoration: inputDecoration(
+              'E-mail',
+              Icons.person,
+            ),
           ),
           SizedBox(
             height: 24,
@@ -121,7 +137,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   : null;
             },
             controller: password,
-            decoration: inputDecoration('Password', Icons.lock),
+            decoration: inputDecoration(
+              'Password',
+              Icons.lock,
+            ),
           ),
           SizedBox(
             height: 32,
@@ -157,7 +176,10 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               style: Theme.of(context).textTheme.labelSmall,
               controller: userName,
-              decoration: inputDecoration('Username', Icons.person),
+              decoration: inputDecoration(
+                'Username',
+                Icons.person,
+              ),
             ),
             SizedBox(
               height: 12,
@@ -166,7 +188,10 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
               style: Theme.of(context).textTheme.labelSmall,
               controller: email,
-              decoration: inputDecoration('E-mail', Icons.person),
+              decoration: inputDecoration(
+                'E-mail',
+                Icons.person,
+              ),
             ),
             SizedBox(
               height: 12,
@@ -174,16 +199,22 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFormField(
               style: Theme.of(context).textTheme.labelSmall,
               controller: password,
-              decoration: inputDecoration('Password', Icons.lock),
+              validator: validatePassword,
+              decoration: inputDecoration(
+                'Password',
+                Icons.lock,
+              ),
             ),
             SizedBox(
               height: 8,
             ),
             TextFormField(
-              controller: rePassword,
-              style: Theme.of(context).textTheme.labelSmall,
-              decoration: inputDecoration('Retype Password', Icons.lock),
-            ),
+                controller: rePassword,
+                style: Theme.of(context).textTheme.labelSmall,
+                decoration: inputDecoration(
+                  'Retype Password',
+                  Icons.lock,
+                )),
             SizedBox(
               height: 8,
             ),
@@ -258,6 +289,7 @@ InputDecoration inputDecoration(
   String? helperText,
 }) {
   return InputDecoration(
+    errorStyle: TextStyle(fontSize: 10),
     contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
     helperText: helperText,
     labelText: labelText,

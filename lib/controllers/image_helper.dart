@@ -12,7 +12,7 @@ class ImageHelper {
 
   Future<XFile?> pickImage({
     ImageSource source = ImageSource.gallery,
-    int imageQuality = 100,
+    int imageQuality = 85,
   }) async {
     return await _imagePicker.pickImage(
         source: source, imageQuality: imageQuality);

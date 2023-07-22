@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +27,7 @@ class LoginViewModel extends GetxController {
     if (response != null) {
       /// Set isLogin to true
       _authManager.login(response.token);
+      _authManager.cacheUsername();
     } else {
       /// Show user a dialog about the error response
       Get.defaultDialog(
