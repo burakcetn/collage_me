@@ -16,5 +16,8 @@ Sosyal medyanın yeni hali
 ![Screenshot_1691241217](https://github.com/burakcetn/collage_me/assets/45536352/af1b2025-d4ed-4f22-b7c3-92f5bcbf1132)
 
 
+<img src="https://github.com/burakcetn/collage_me/assets/45536352/674fac9b-fd20-4811-98cf-c007c7b700ef" alt="Screenshot_1691241055" height="300">
+
+
 https://github.com/burakcetn/collage_me/assets/45536352/1b480c10-bd29-4e55-a642-66532f36f55d
 
