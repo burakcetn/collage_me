@@ -2,6 +2,13 @@
 
 Sosyal medyanın yeni hali
 
+    Kullanılan teknolojiler
+      => GetX
+      => Retrofit
+      => Firebase CLI
+      => FCM
+      => Paketler  (image_croper, image_picker, screenshoot)
+
 ## 
 
 
